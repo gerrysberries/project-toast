@@ -2,44 +2,12 @@ import React from 'react';
 
 import Button from '../Button';
 import ToastShelf from '../ToastShelf/';
+import {ToastContext} from '../ToastProvider';
 
 import styles from './ToastPlayground.module.css';
 
-const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
-
 function ToastPlayground() {
-	const [message, setMessage] = React.useState('');
-	const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
-	const [toastList, setToastList] = React.useState([]);
-
-	function handleDismiss(id) {
-		const newToastList = toastList.filter(toast => toast.id !== id);
-
-		setToastList(newToastList);
-	}
-
-	function handleCreateToast(e) {
-		e.preventDefault();
-
-		// My original solution:
-
-		// const newToast = {
-		// 	id: crypto.randomUUID(),
-		// 	variant,
-		// 	message,
-		// };
-		// setToastList([...toastList, newToast])
-
-		// Josh's solution:
-		const nextToasts = [...toastList, {id: crypto.randomUUID(), variant, message}];
-		setToastList(nextToasts);
-
-		setMessage('');
-		setVariant(VARIANT_OPTIONS[0]);
-		// console.log(toastList);
-	}
-
-	// console.log('playground rendered');
+	const {toastList, variant, message, handleCreateToast, handleDismiss, VARIANT_OPTIONS, setMessage, setVariant} = React.useContext(ToastContext);
 
 	return (
 		<div className={styles.wrapper}>
